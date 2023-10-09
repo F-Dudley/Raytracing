@@ -2,14 +2,7 @@
   "name": "raytracer",
   "version": "0.0.1",
   "dependencies": [
-    {
-      "name": "sdl2",
-      "features": []
-    },
-    {
-      "name": "sdl2-image",
-      "features": []
-    },
+    "glfw3",
 
     {
       "name": "glad",
@@ -18,17 +11,16 @@
       ]
     },
     {
-      "name": "glm",
-      "features": []
-    },
-    {
       "name": "imgui",
       "features": [
-        "sdl2-binding",
-        "sdl2-renderer-binding",
+        "glfw-binding",
         "opengl3-binding",
         "docking-experimental"
       ]
+    },
+    {
+      "name": "glm",
+      "features": []
     }
 
   ]

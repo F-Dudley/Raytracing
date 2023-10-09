@@ -6,11 +6,12 @@
 #include <iostream>
 
 #include "App.h"
+#include "AppLayers.h"
 
 int main()
 {
 	{
-		std::unique_ptr<App> app = std::make_unique<App>();
+		std::unique_ptr<Raytracer::App> app = std::make_unique<Raytracer::App>();
 
 		if (!app->Init())
 		{
@@ -19,13 +20,20 @@ int main()
 			return -1;
 		}
 
+		// ------------------------------
+		// Add Layers To Application Here
+
+		app->PushLayer(std::make_unique<Raytracer::RendererLayer>(app->GetRenderer()));
+
+		// ------------------------------
+
 		while (app->IsRunning())
 		{
 			app->HandleEvents();
 
 			app->Update();
 
-			app->Render();
+			app->RenderGUI();
 		}
 
 		if (!app->Clean())
