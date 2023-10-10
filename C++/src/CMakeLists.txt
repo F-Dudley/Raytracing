@@ -1,5 +1,4 @@
-
-#add_subdirectory("Core")
+add_subdirectory("Core")
 add_subdirectory("Renderer")
 add_subdirectory("Window")
 
@@ -11,7 +10,7 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} 
 	PRIVATE
-		#${PROJECT_NAME}::Core
+		${PROJECT_NAME}_Core
 		${PROJECT_NAME}_Renderer
 		${PROJECT_NAME}_Window
 
