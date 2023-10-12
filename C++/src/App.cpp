@@ -1,6 +1,8 @@
 
 #include "App.h"
 
+#include <glad/glad.h>
+
 namespace Raytracer
 {
 	App::App()
@@ -67,6 +69,8 @@ namespace Raytracer
 
 		glfwMakeContextCurrent(m_Window);
 		glfwSwapInterval(1); // Enable vsync
+
+		gladLoadGL();
 
 		ImGui::CreateContext();
 

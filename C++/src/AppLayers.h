@@ -1,19 +1,19 @@
+#pragma once
 
 #include <memory>
 #include <imgui.h>
 
 #include "Renderer.h"
 #include "Layer.h"
+#include "Image.h"
 
 namespace Raytracer
 {
 	class RendererLayer : public Window::Layer
 	{
 		public:
-			RendererLayer(const std::shared_ptr<Renderer::Renderer> renderer) : Layer() , m_Renderer(renderer)
-			{
-		
-			}
+			RendererLayer() = default;
+			RendererLayer(const std::shared_ptr<Renderer::Renderer> renderer);
 
 			virtual void OnAttach() override;
 			virtual void OnDetach() override;
@@ -24,5 +24,8 @@ namespace Raytracer
 
 		private:
 			std::shared_ptr<Renderer::Renderer> m_Renderer;
+			std::shared_ptr<Raytracer::Core::Image> m_Image;
+
+			uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
 	};
 }

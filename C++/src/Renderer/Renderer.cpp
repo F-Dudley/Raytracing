@@ -1,13 +1,15 @@
 #include "Renderer.h"
 
-#include <iostream>
-#include <thread>
-
 namespace Raytracer::Renderer
 {
 	Renderer::Renderer()
 	{
+		m_Image = std::make_shared<Raytracer::Core::Image>();
+	}
 
+	Renderer::Renderer(const std::shared_ptr<Core::Image> image)
+	{
+		m_Image = image;
 	}
 
 	void Renderer::StartRender()

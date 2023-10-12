@@ -2,9 +2,15 @@
 
 namespace Raytracer
 {
+	RendererLayer::RendererLayer(const std::shared_ptr<Renderer::Renderer> renderer)
+		: m_Renderer(renderer)
+	{
+		
+	}
+
 	void RendererLayer::OnAttach()
 	{
-
+	
 	}
 
 	void RendererLayer::OnDetach()
@@ -28,7 +34,18 @@ namespace Raytracer
 		// -- Renderer Viewport --
 		ImGui::Begin("Viewport");
 		{
-			// ImGui::Image();
+			m_ViewportWidth = ImGui::GetContentRegionAvail().x;
+			m_ViewportHeight = ImGui::GetContentRegionAvail().y;
+			if (m_Image)
+			{
+				ImGui::Image(m_Image->GetImGuiTextureID(), 
+					{ (float) m_Image->getWidth(), (float) m_Image->getHeight() }
+				);
+			}
+			else
+			{
+				ImGui::Text("Click Render to Start.");
+			}
 
 			// An ImGui button locked to the bottom right of the viewport window.
 			// This button will start or abort the render.

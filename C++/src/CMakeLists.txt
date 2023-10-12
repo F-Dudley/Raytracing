@@ -14,6 +14,7 @@ target_link_libraries(${PROJECT_NAME}
 		${PROJECT_NAME}_Renderer
 		${PROJECT_NAME}_Window
 
+		glad::glad
 		glfw
 		imgui::imgui
 )

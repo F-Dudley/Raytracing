@@ -3,9 +3,15 @@ add_library(${PROJECT_NAME}_Renderer STATIC
 )
 
 target_link_libraries(${PROJECT_NAME}_Renderer PRIVATE
-	glm::glm
+	${PROJECT_NAME}_Core
+
+	glad::glad
 )
 
-target_include_directories(${PROJECT_NAME}_Renderer PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}
+target_include_directories(${PROJECT_NAME}_Renderer 
+	PUBLIC
+		${CMAKE_CURRENT_SOURCE_DIR}
+
+	PRIVATE
+		${PROJECT_NAME}_Core
 )

@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #include <imgui.h> 
@@ -40,13 +41,10 @@ namespace Raytracer
 
 			void Quit() { glfwSetWindowShouldClose(m_Window, true); }
 
-			// get renderer
 			std::shared_ptr<Renderer::Renderer> GetRenderer() const { return m_Renderer; }
 
 		private:
-
 			bool InitWindow();
-
 
 		private:
 			GLFWwindow* m_Window = nullptr;

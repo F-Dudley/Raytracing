@@ -7,7 +7,6 @@ target_link_libraries(${PROJECT_NAME}_Window PRIVATE
 	glfw
 	
 	glad::glad
-	OpenGL::GL
 	imgui::imgui
 )
 
