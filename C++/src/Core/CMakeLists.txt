@@ -4,7 +4,7 @@ add_library(${PROJECT_NAME}_Core STATIC
 
 target_link_libraries(${PROJECT_NAME}_Core PRIVATE
 	glad::glad
-	imgui::imgui
+	OpenGL::GL
 	glm::glm
 )
 

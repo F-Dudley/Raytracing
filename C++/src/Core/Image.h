@@ -1,18 +1,16 @@
 #pragma once
 
+#include <iostream>
 #include <memory>
 #include <vector>
 
 #include <glad/glad.h>
-#include <imgui.h>
-
 #include <glm/vec4.hpp>
 
 #include "Color.h"
 
 namespace Raytracer::Core
 {
-
 	class Image
 	{
 		public:
@@ -41,10 +39,6 @@ namespace Raytracer::Core
 				return m_TextureID; 
 			}
 
-			ImTextureID GetImGuiTextureID() const {
-				return (ImTextureID) m_TextureID; 
-			}
-
 		private:
 			void CreateGLTexture();
 			void UpdateGLTexture();
@@ -54,6 +48,6 @@ namespace Raytracer::Core
 			uint32_t m_Width = 0, m_Height = 0;
 			std::vector<Color> m_Data;
 
-			GLuint m_TextureID = NULL;
+			GLuint m_TextureID;
 	};
 }

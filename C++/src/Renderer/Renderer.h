@@ -27,9 +27,9 @@ namespace Raytracer::Renderer
 
 			bool IsRunning() const { return m_Running; }
 
-			std::shared_ptr<Core::Image> GetImage() const { return m_Image; }
+			std::shared_ptr<Core::Image> GetImagePtr() const { return m_Image; }
 			
-			Core::Image* GetImagePtr() const { return m_Image.get(); }
+			Core::Image* GetImageRawPtr() const { return m_Image.get(); }
 
 		private:
 			void Render();

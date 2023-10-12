@@ -23,7 +23,7 @@ namespace Raytracer
 			virtual void OnImGuiRender() override;
 
 		private:
-			std::shared_ptr<Renderer::Renderer> m_Renderer;
+			std::shared_ptr<Raytracer::Renderer::Renderer> m_Renderer;
 			std::shared_ptr<Raytracer::Core::Image> m_Image;
 
 			uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;

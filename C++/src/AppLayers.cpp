@@ -3,7 +3,7 @@
 namespace Raytracer
 {
 	RendererLayer::RendererLayer(const std::shared_ptr<Renderer::Renderer> renderer)
-		: m_Renderer(renderer)
+		: m_Renderer(renderer), m_Image(renderer->GetImagePtr())
 	{
 		
 	}
@@ -38,7 +38,7 @@ namespace Raytracer
 			m_ViewportHeight = ImGui::GetContentRegionAvail().y;
 			if (m_Image)
 			{
-				ImGui::Image(m_Image->GetImGuiTextureID(), 
+				ImGui::Image((ImTextureID) m_Image->GetTextureID(), 
 					{ (float) m_Image->getWidth(), (float) m_Image->getHeight() }
 				);
 			}

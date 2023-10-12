@@ -31,10 +31,9 @@ namespace Raytracer::Core
 			return *this;
 		}
 
-
-		float& r = x;
-		float& g = y;
-		float& b = z;
 		float& a = w;
+		float& b = z;
+		float& g = y;
+		float& r = x;
 	};
 }

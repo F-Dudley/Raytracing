@@ -21,4 +21,8 @@ target_link_libraries(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME} PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}
+
+	${PROJECT_NAME}_Core
+	${PROJECT_NAME}_Renderer
+	${PROJECT_NAME}_Window
 )

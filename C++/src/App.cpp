@@ -8,8 +8,6 @@ namespace Raytracer
 	App::App()
 	{
 		m_LayerStack = std::vector<std::shared_ptr<Window::Layer>>();
-
-		m_Renderer = std::shared_ptr<Renderer::Renderer>();
 	}
 
 	App::~App()
@@ -22,64 +20,91 @@ namespace Raytracer
 		if (!glfwInit())
 		{
 			std::cerr << "[ERROR] | App::Init | GLFW Initialization Failed." << std::endl;
+		
+			return false;
 		}
 
 		if (!InitWindow())
 		{
 			std::cerr << "[ERROR] | App::Init | Window Initialization Failed." << std::endl;
+		
+			return false;
 		}
+
+		if (!InitImGUI())
+		{
+			std::cerr << "[ERROR] | App::Init | ImGUI Initialization Failed." << std::endl;
+			
+			return false;
+		}
+
+		// -- Initialize Components that Require GLFW / OpenGL / ImGui -- //
+
+		m_Renderer = std::make_shared<Renderer::Renderer>();
+
+		// -- //
 
 		return true;
 	}
 
 	bool App::InitWindow()
 	{
-		// Decide GL+GLSL versions
-		#if defined(IMGUI_IMPL_OPENGL_ES2)
-			// GL ES 2.0 + GLSL 100
-				const char* glsl_version = "#version 100";
-				glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-				glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-				glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
-		#elif defined(__APPLE__)
-			// GL 3.2 + GLSL 150
-				const char* glsl_version = "#version 150";
-				glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-				glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-				glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
-				glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
-		#else
-			// GL 3.0 + GLSL 130
-				const char* glsl_version = "#version 130";
-				glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-				glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-				//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
-				//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
-		#endif
-
 		// Build GLFW Window
 		m_Window = glfwCreateWindow(1280, 720, "Raytracer", NULL, NULL);
 		if (m_Window == NULL)
 		{
 			std::cerr << "[ERROR] | App::InitWindow | Failed to create GLFW window" << std::endl;
 			glfwTerminate();
-			
+
 			return false;
 		}
 
 		glfwMakeContextCurrent(m_Window);
 		glfwSwapInterval(1); // Enable vsync
 
-		gladLoadGL();
+		int version = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		if (version == 0)
+		{
+			std::cerr << "[ERROR] | App::InitWindow | Failed to initialize GLAD" << std::endl;
+
+			return false;
+		}
+
+		return true;
+	}
+
+	bool App::InitImGUI()
+	{
+		// Decide GL+GLSL versions
+#if defined(IMGUI_IMPL_OPENGL_ES2)
+	// GL ES 2.0 + GLSL 100
+		const char* glsl_version = "#version 100";
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+#elif defined(__APPLE__)
+	// GL 3.2 + GLSL 150
+		const char* glsl_version = "#version 150";
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
+#else
+	// GL 3.0 + GLSL 130
+		const char* glsl_version = "#version 130";
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+		//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
+		//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
+#endif
 
 		ImGui::CreateContext();
 
-
-		ImGuiIO& guiIO = ImGui::GetIO(); (void) guiIO;
+		ImGuiIO& guiIO = ImGui::GetIO(); (void)guiIO;
 		guiIO.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 		guiIO.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 		guiIO.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
-	
+
 		// ImGui Styling
 		ImGui::StyleColorsDark();
 
@@ -91,8 +116,6 @@ namespace Raytracer
 			style.WindowRounding = 4.0f;
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
-
-		style.FrameRounding = 4.0f;
 
 		ImGui_ImplGlfw_InitForOpenGL(m_Window, true);
 		ImGui_ImplOpenGL3_Init(glsl_version);

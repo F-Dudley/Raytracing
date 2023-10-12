@@ -18,7 +18,6 @@ namespace Raytracer
 {
 	class App
 	{
-
 		public:
 			App();
 			~App();
@@ -45,6 +44,7 @@ namespace Raytracer
 
 		private:
 			bool InitWindow();
+			bool InitImGUI();
 
 		private:
 			GLFWwindow* m_Window = nullptr;

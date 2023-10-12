@@ -16,6 +16,16 @@ namespace Raytracer::Renderer
 	{
 		// Start the Render Functionality on alternitive thread, so no GUI blocking.
 		std::clog << "Starting Render" << std::endl;
+
+		m_Image->Resize(1280, 720);
+
+		for (int x = 0; x < m_Image->getWidth(); x++)
+		{
+			for (int y = 0; y < m_Image->getHeight(); y++)
+			{
+				m_Image->SetPixel(x, y, Core::Color { 1.0f, 1.0f, 1.0f, 1.0f } );
+			}
+		}
 	}
 
 	void Renderer::AbortRender()
